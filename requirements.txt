@@ -1,0 +1,4 @@
+discord.py >= 1.6.0
+jishaku == lastest
+asyncio == 3.4.3
+datetime == 4.3
