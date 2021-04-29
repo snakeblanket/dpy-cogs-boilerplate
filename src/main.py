@@ -5,8 +5,8 @@ bot = commands.AutoShardedBot(
     Intents=discord.Intents.all(), command_prefix=commands.when_mentioned_or("!")
 )
 
-now = Time(datetime.datetime.now())
-name = f"logs/bot/{now['year']}-{now['month']}-{now['day']}-{now['hour']}-{now['minute']}-{now['second']}"
+now = datetime.datetime.now()
+name = f"logs/{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
 logger = logging.getLogger(bot.user.name)
 logger.setLevel(logging.INFO)
 stream = logging.StreamHandler()
