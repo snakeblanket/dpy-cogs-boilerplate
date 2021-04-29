@@ -5,6 +5,7 @@ ext/cogs를 기반으로 한 디스코드 챗봇 소스 코드 템플릿입니�
 
 ### Prerequisite
 이 프로젝트는 디스코드 챗봇 개발을 하는 프로그래머를 위해 제작되었습니다.
+
 async와 await 구문 사용을 위해 3.7 이상의 파이썬 개발 환경이 필요합니다.
 
 통합 개발 환경(IDE)는 [Visual Studio Code](https://code.visualstudio.com)를 권장합니다.
