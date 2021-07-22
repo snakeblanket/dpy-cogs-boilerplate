@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 import os
 import config
@@ -5,37 +6,46 @@ import jishaku
 import colorlog
 from config import LOGGER as logger
 
-bot = commands.AutoShardedBot(
-    Intents=__import__("discord").Intents.all(), command_prefix=commands.when_mentioned_or("!")
-)
+class Bot(commands.AutoShardedBot):
+    def __init__(self):
+        super().__init__(
+            command_prefix = "!",
+            intents = discord.Intents.all(),
+            owner_ids = [],
+            # help_command = None
+        )
 
-if not os.path.isdir("logs"):
-    os.mkdir("logs")
-else:
-    pass
+        try:
+            self.load_extension("jishaku")
+            logger.info(f"✅ jishaku 로드 완료")
+        except:
+            logger.error(f"❎ jishaku 로드 실패")
 
-try:
-    bot.load_extension("jishaku")
-    logger.info(f"✅ jishaku 로드 완료")
-except:
-    logger.error(f"❎ jishaku 로드 실패")
+        try:
+            for filename in os.listdir("cogs"):
+                if filename.endswith(".py"):
+                    try:
+                        self.load_extension(f"cogs.{filename[:-3]}")
+                        logger.info(f"✅ {filename} 로드 완료")
+                    except:
+                        logger.error(f"❎ {filename} 로드 실패")
+        except FileNotFoundError:
+            for filename in os.listdir("src/cogs"):
+                if filename.endswith(".py"):
+                    try:
+                        self.load_extension(f"cogs.{filename[:-3]}")
+                        logger.info(f"✅ {filename} 로드 완료")
+                    except:
+                        logger.error(f"❎ {filename} 로드 실패")
 
-try:
-    for filename in os.listdir("cogs"):
-        if filename.endswith(".py"):
-            try:
-                bot.load_extension(f"cogs.{filename[:-3]}")
-                logger.info(f"✅ {filename} 로드 완료")
-            except:
-                logger.error(f"❎ {filename} 로드 실패")
-except FileNotFoundError:
-    for filename in os.listdir("src/cogs"):
-        if filename.endswith(".py"):
-            try:
-                bot.load_extension(f"cogs.{filename[:-3]}")
-                logger.info(f"✅ {filename} 로드 완료")
-            except:
-                logger.error(f"❎ {filename} 로드 실패")
+    async def on_ready(self):
+        logger.info(self.user)
+        logger.info(self.user.id)
+    
+    async def on_message(self, message):
+        if message.author.bot:
+            return
+        await self.process_commands(message)
 
 def setup_logger():
     logger.setLevel("DEBUG")
@@ -52,5 +62,5 @@ def setup_logger():
 
 if __name__ == "__main__":
     setup_logger()
-    bot = bot()
+    bot = Bot()
     bot.run(config.BOT_TOKEN, reconnect=True)
