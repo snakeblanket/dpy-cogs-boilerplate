@@ -1,28 +1,18 @@
-import discord, asyncio, dotenv, os, logging, datetime, jishaku
 from discord.ext import commands
+import os
+import config
+import jishaku
+import colorlog
+from config import LOGGER as logger
 
 bot = commands.AutoShardedBot(
-    Intents=discord.Intents.all(), command_prefix=commands.when_mentioned_or("!")
+    Intents=__import__("discord").Intents.all(), command_prefix=commands.when_mentioned_or("!")
 )
 
 if not os.path.isdir("logs"):
     os.mkdir("logs")
 else:
     pass
-now = datetime.datetime.now()
-name = f"logs/{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
-logger = logging.getLogger("Bot")
-logger.setLevel(logging.INFO)
-stream = logging.StreamHandler()
-handler = logging.FileHandler(filename=f"{name}.log", encoding="utf-8", mode="w")
-formatter = logging.Formatter("[%(asctime)s | %(name)s | %(levelname)s] %(message)s")
-stream.setFormatter(formatter)
-handler.setFormatter(formatter)
-logger.addHandler(stream)
-logger.addHandler(handler)
-
-dotenv.load_dotenv(verbose=True)
-token = os.getenv("BOT_TOKEN")
 
 try:
     bot.load_extension("jishaku")
@@ -47,4 +37,20 @@ except FileNotFoundError:
             except:
                 logger.error(f"❎ {filename} 로드 실패")
 
-bot.run(token, bot=True, reconnect=True)
+def setup_logger():
+    logger.setLevel("DEBUG")
+    handler = colorlog.StreamHandler()
+    handler.setFormatter(
+        colorlog.ColoredFormatter(
+            "{log_color}{asctime} {message}", "[%y-%m-%d %H:%M:%S]", style="{"
+        )
+    )
+    logger.addHandler(handler)
+    logger.debug("Logging enabled")
+    return logger
+
+
+if __name__ == "__main__":
+    setup_logger()
+    bot = bot()
+    bot.run(config.BOT_TOKEN, reconnect=True)
