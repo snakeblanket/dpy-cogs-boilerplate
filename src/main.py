@@ -30,13 +30,16 @@ class Bot(commands.AutoShardedBot):
                     except:
                         logger.error(f"❎ {filename} 로드 실패")
         except FileNotFoundError:
-            for filename in os.listdir("src/cogs"):
-                if filename.endswith(".py"):
-                    try:
-                        self.load_extension(f"cogs.{filename[:-3]}")
-                        logger.info(f"✅ {filename} 로드 완료")
-                    except:
-                        logger.error(f"❎ {filename} 로드 실패")
+            try:
+                for filename in os.listdir("src/cogs"):
+                    if filename.endswith(".py"):
+                        try:
+                            self.load_extension(f"cogs.{filename[:-3]}")
+                            logger.info(f"✅ {filename} 로드 완료")
+                        except:
+                            logger.error(f"❎ {filename} 로드 실패")
+                    except FileNotFoundError:
+                        return print("cogs 폴더 검색을 실패하였습니다. \n폴더명이 바뀌었는지, 혹은 폴더명 변경 후 main.py 파일을 수정하지 않았는지 확인해주시기 바랍니다.")
 
     async def on_ready(self):
         logger.info(self.user)
