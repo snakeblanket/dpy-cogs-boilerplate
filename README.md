@@ -1,4 +1,4 @@
-# Discord Cogs Application BoilerTemplete
+# Discord Cogs Application BoilerTemplte
 ext/cogs를 기반으로 한 디스코드 챗봇 소스 코드 템플릿입니다.
 
 ## Starting / Setting Application
