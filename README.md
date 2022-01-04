@@ -1,4 +1,4 @@
-# Discord Cogs Application BoilerTemplte
+# Discord Cogs Application BoilerPlate
 ext/cogs를 기반으로 한 디스코드 챗봇 소스 코드 템플릿입니다.
 
 ## Starting / Setting Application
@@ -32,7 +32,7 @@ $ pip install -r requirements.txt
 이 템플릿을 클론하고 src/main.py를 실행합니다.
 
 ```
-$ git clone https://github.com/Bainble0211/dpy-cogs-boilertemplete
+$ git clone https://github.com/Bainble0211/dpy-cogs-boilerplate
 # 혹은 다운로드
 $ python src/main.py
 ```
@@ -43,5 +43,5 @@ $ python src/main.py
 
 ### License
 This project is licensed under the MIT License - see the
-[LICENSE](https://github.com/Bainble0211/dpy-cogs-boilertemplete/blob/main/LICENSE)
+[LICENSE](https://github.com/Bainble0211/dpy-cogs-boilerplate/blob/main/LICENSE)
 
